@@ -14,7 +14,7 @@ function getCovidDataUrl (
     "res_state",
     "sex",
   ],
-  limit = 9999
+  limit = 99999
 ) {
   let url = "https://data.cdc.gov/api/id/n8mc-b4w4.json?"
   let queryList = []
@@ -65,8 +65,13 @@ function loadUsaMap (svg, path) {
   d3.json(getCovidDataUrl(), (error, patientCases) => {
     if (error) throw error;
 
-    const casesByCountyHash = getCasesByCountyHash(patientCases)
-    loadCounties(svg, path, getTopoJson(casesByCountyHash));
+    const casesByCountyHash = getCasesByCountyHash(patientCases);
+    const maxCounter = Math.max.apply(null, Object.values(casesByCountyHash));
+    const getFillColor = d3.scaleQuantize()
+      .domain([0, maxCounter])
+      .range(["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"]);
+
+    loadCounties(svg, path, getTopoJson(casesByCountyHash), getFillColor);
     loadStateBorders(svg, path);
   });
 }
@@ -81,7 +86,7 @@ function displayCountyName (data) {
   return id;
 }
 
-function loadCounties (svg, path, topoJson) {
+function loadCounties (svg, path, topoJson, getFillColor) {
   svg.append("g")
     .attr("class", "counties")
     .selectAll("path")
@@ -89,6 +94,7 @@ function loadCounties (svg, path, topoJson) {
     .enter()
       .append("path")
       .attr("d", path)
+      .style("fill", (d) => getFillColor(d.properties.cases))
         .append("title")
         .text(displayCountyName);
 }
