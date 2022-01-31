@@ -2,11 +2,11 @@ body {
   background-color: lightgray;
 }
 
-.states {
+.counties {
   fill: darkcyan;
 }
 
-.states :hover {
+.counties :hover {
   fill: red;
 }
 
