@@ -1,0 +1,26 @@
+.bin-group .bin-sub-group .bin-month {
+  stroke: white;
+  fill: darkcyan;
+  opacity: .25;
+}
+
+.bin-group .bin-sub-group .bin-month.disabled {
+  fill: black;
+}
+
+.bin-group .bin-sub-group .bin-month.selected {
+  opacity: 0.75;
+}
+
+.bin-group .bin-sub-group .bin-month:hover {
+  opacity: 1;
+}
+
+.bin-group .bin-sub-group text {
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.bin-group .bin-sub-group:hover text {
+  visibility: visible;
+}
